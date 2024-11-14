@@ -4,6 +4,8 @@ import authRoutes from './routes/auth.js';
 import carRoutes from './routes/cars.js';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 dotenv.config();
 
@@ -16,6 +18,26 @@ app.use(cors({
     credentials: true
 }));
 
+
+const swaggerOptions = {
+    swaggerDefinition:{
+        info:{
+            title: 'Car Management API',
+            description: 'Car Management API Information',
+            contact:{
+                name: 'Amazing Developer'
+            },
+        },
+    },
+
+    apis: ["./routes/*.js"],
+
+}
+
+
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
+
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carRoutes);
 // app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
