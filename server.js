@@ -40,7 +40,6 @@ const swaggerDocs = swaggerJSDoc(swaggerOptions);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carRoutes);
-// app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
