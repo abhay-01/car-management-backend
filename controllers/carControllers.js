@@ -4,12 +4,8 @@ export async function createCar(req, res) {
   const { title, description, tags, images } = req.body; // images are URLs now
 
   try {
-    const newCar = new Car({
-      title,
-      description,
-      tags: tags.split(", "),
-      images,
-    });
+    const newCar = new Car({ ...req.body, user: req.user.id });
+
     await newCar.save();
     res.status(201).json(newCar);
   } catch (error) {
