@@ -1,10 +1,22 @@
 import Car from '../model/Car.js';
 
-export async function createCar(req, res) {
-    const car = new Car({ ...req.body, user: req.user.id });
-    await car.save();
-    res.send('Car added');
-}
+export async function createCar (req,res){
+    const { title, description, tags } = req.body;
+  const imageFiles = req.files.map(file => file.path); 
+
+  try {
+    const newCar = new Car({
+      title,
+      description,
+      tags: tags.split(', '),
+      images: imageFiles,
+    });
+    await newCar.save();
+    res.status(201).json(newCar);
+  } catch (error) {
+    res.status(500).json({ message: "Error creating car", error });
+  }
+};
 
 export async function getCars(req, res) {
     const cars = await Car.find({ user: req.user.id });
